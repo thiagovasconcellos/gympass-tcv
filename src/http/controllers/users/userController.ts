@@ -5,13 +5,13 @@ import { EmailAlreadyExistsError } from '@/errors/email-already-exists-error'
 import { makeUserService } from '@/services/_factories/make-userService'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
-  const newUserSchema = z.object({
+  const schema = z.object({
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6)
   })
 
-  const { ...user } = newUserSchema.parse(request.body)
+  const { ...user } = schema.parse(request.body)
 
   try {
     const createUserService = makeUserService()

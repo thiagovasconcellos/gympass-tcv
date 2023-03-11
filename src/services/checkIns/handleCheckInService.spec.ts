@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { InMemoryCheckInRepository } from '@/repositories/in-memory/checkIns/in-memory-checkInRepository'
 import { HandleCheckInService } from './handleCheckInService'
 import { InMemoryGymRepository } from '@/repositories/in-memory/gyms/in-memory-gymRepository'
-import { Decimal } from '@prisma/client/runtime/library'
+import { Decimal } from '@prisma/client/runtime'
 import { TooManyCheckInsError } from '@/errors/too-many-checkins-error'
 import { MaxDistanceError } from '@/errors/max-distance-error'
 
