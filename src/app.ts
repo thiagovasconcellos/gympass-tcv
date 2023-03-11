@@ -3,6 +3,8 @@ import { ZodError } from 'zod'
 
 import { env } from './env'
 import { fastifyJwt } from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
+
 import { gymRoutes } from './http/controllers/gym/routes'
 import { userRoutes } from './http/controllers/users/routes'
 import { profileRoutes } from './http/controllers/profile/routes'
@@ -13,8 +15,17 @@ import { MaxDistanceError } from './errors/max-distance-error'
 export const app = fastify()
 
 app.register(fastifyJwt, {
-  secret: env.JWT_SECRET
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false
+  },
+  sign: {
+    expiresIn: '12h'
+  }
 })
+
+app.register(fastifyCookie)
 
 app.register(userRoutes)
 app.register(authRoutes)
