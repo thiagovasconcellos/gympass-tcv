@@ -44,7 +44,27 @@ export class InMemoryCheckInRepository implements ICheckInRepository {
     return checkInOnSameDate
   }
 
-  async findManyByUserId(userId: string): Promise<CheckIn[]> {
-    return this.db.filter((item) => item.user_id === userId)
+  async findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
+    return this.db
+      .filter((item) => item.user_id === userId)
+      .slice((page - 1) * 20, page * 20)
+  }
+
+  async getCheckInCountByUserId(userId: string): Promise<number> {
+    return this.db.filter((item) => item.user_id === userId).length
+  }
+
+  async findById(id: string): Promise<CheckIn | null> {
+    return this.db.find((item) => item.id === id) ?? null
+  }
+
+  async save(checkIn: CheckIn): Promise<CheckIn> {
+    const checkInIndex = this.db.findIndex((item) => item.id === checkIn.id)
+
+    if (checkInIndex >= 0) {
+      this.db[checkInIndex] = checkIn
+    }
+
+    return checkIn
   }
 }

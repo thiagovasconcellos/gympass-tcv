@@ -3,17 +3,18 @@ import { CheckIn } from '@prisma/client'
 
 interface IRequest {
   userId: string
+  page: number
 }
 
 interface IResponse {
   checkIns: CheckIn[]
 }
 
-export class FetchUserCheckinsHistoryService {
+export class FetchUserCheckInsHistoryService {
   constructor(private checkInRepository: ICheckInRepository) {}
 
-  async handle({ userId }: IRequest): Promise<IResponse> {
-    const checkIns = await this.checkInRepository.findManyByUserId(userId)
+  async handle({ userId, page }: IRequest): Promise<IResponse> {
+    const checkIns = await this.checkInRepository.findManyByUserId(userId, page)
 
     return { checkIns }
   }
